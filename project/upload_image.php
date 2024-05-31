@@ -34,23 +34,23 @@ if (!$_SESSION['is_login']){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
     <style>
-    * {
-        font-family: "PT Serif", serif;
-        font-weight: 400;
-        font-style: normal;
-    }
+        * {
+            font-family: "PT Serif", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
-    .navbar-brand {
-        font-family: "PT Serif", serif;
-        font-weight: 700;
-        font-style: normal;
-    }
+        .navbar-brand {
+            font-family: "PT Serif", serif;
+            font-weight: 700;
+            font-style: normal;
+        }
     </style>
 </head>
 
@@ -98,46 +98,103 @@ if (!$_SESSION['is_login']){
                 <div class="row py-3 d-flex justify-content-center">
                     <div class="col-11 col-lg-6 col-md-6 col-sm-11">
                         <div class="card shadow-lg p-3 mb-5 bg-body rounded" style="width: 80%; align-items: center">
-                            <img src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
-                                id="uploadPreview" class="card-img-top" alt="Image Preview" />
+                            <img src="images/default-image.jpg" id="uploadPreview" class="card-img-top"
+                                alt="Image Preview" />
                             <div class="card-body">
-                                <form action="upload.php" method="post" enctype="multipart/form-data">
+                                <form action="upload.php" method="POST" enctype="multipart/form-data">
                                     <h5 class="card-title">Upload image</h5>
-
-                                    <input id="uploadImage" class="py-3" type="file" name="myPhoto"
+                                    <input type="file" name="image" id="uploadImage" class="py-3"
                                         onchange="PreviewImage();" style="overflow: hidden"
-                                        accept="image/png, image/gif, image/jpeg" />
-
-                                    <button id="selectImageButton" class="btn btn-success px-3">
-                                        Submit
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        upload
-                                    </button>
+                                        accept="image/png, image/gif, image/jpeg" required />
+                                    <button type="submit" name="submit" class="btn btn-success">Upload</button>
                                 </form>
                             </div>
                         </div>
 
                         <script type="text/javascript">
-                        function PreviewImage() {
-                            var oFReader = new FileReader();
-                            oFReader.readAsDataURL(
-                                document.getElementById("uploadImage").files[0]
-                            );
+                            function PreviewImage() {
+                                var oFReader = new FileReader();
+                                oFReader.readAsDataURL(
+                                    document.getElementById("uploadImage").files[0]
+                                );
 
-                            // document.getElementById("output").textContent = ;
+                                // document.getElementById("output").textContent = ;
 
-                            oFReader.onload = function(oFREvent) {
-                                document.getElementById("uploadPreview").src =
-                                    oFREvent.target.result;
-                            };
-                        }
+                                oFReader.onload = function (oFREvent) {
+                                    document.getElementById("uploadPreview").src =
+                                        oFREvent.target.result;
+                                };
+
+                                //  image details : 
+                                // Get the file input element
+                                const fileInput = $("#uploadImage")[0];
+                                // Retrieve the selected file
+                                const file = fileInput.files[0];
+
+                                if (file) {
+                                    const imageType =
+                                        /^image\//; // Regular expression to match image MIME types
+
+                                    if (!imageType.test(file.type)) {
+                                        alert("Please select a valid image file.");
+                                        // Clear the file input value to allow reselection
+                                        event.target.value = null;
+                                        return; // Stop further processing
+                                    }
+                                    const reader = new FileReader();
+
+                                    reader.onload = function (event) {
+                                        const image = new Image();
+
+                                        image.onload = function () {
+                                            EXIF.getData(image, function () {
+                                                const metadata = {
+                                                    name: file.name,
+                                                    type: file.type,
+                                                    size: file.size,
+                                                    width: image.width,
+                                                    height: image.height,
+                                                    exifData: EXIF.getAllTags(this),
+                                                    gpsData: EXIF.getTag(this,
+                                                        "GPSLatitude") ? {
+                                                        latitude: EXIF.getTag(this,
+                                                            "GPSLatitude"),
+                                                        longitude: EXIF.getTag(this,
+                                                            "GPSLongitude"),
+                                                    } : null,
+                                                };
+                                                console.log(metadata);
+
+                                                document.getElementById("output").innerHTML = `
+                            <p>Name: ${metadata.name}</p>
+                            <p>Type: ${metadata.type}</p>
+                            <p>Size: ${metadata.size} bytes</p>
+                            <p>Width: ${metadata.width} pixels</p>
+                            <p>Height: ${metadata.height} pixels</p>
+                            <p>EXIF Data: ${JSON.stringify(
+                                                    metadata.exifData
+                                                )}</p>
+                            <p>GPS Data: ${metadata.gpsData
+                                                        ? `Latitude: ${metadata.gpsData.latitude}, Longitude: ${metadata.gpsData.longitude}`
+                                                        : "No GPS data found"
+                                                    }</p>
+              
+                        `;
+                                            });
+                                        };
+
+                                        image.src = event.target.result;
+                                    };
+
+                                    reader.readAsDataURL(file);
+                                }
+                            }
                         </script>
                     </div>
 
                     <div class="shadow-lg p-3 mb-5 bg-body rounded col-11 col-lg-6 col-md-6 col-sm-11">
                         <div>
-                            <h4 class="p-2">Results:</h4>
+                            <h4 class="p-2">Image Informations:</h4>
                             <br />
                             <div class="ps-2" id="output"></div>
                         </div>
@@ -152,82 +209,81 @@ if (!$_SESSION['is_login']){
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
+        </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+        </script>
 
     <script>
-    $(function() {
-        $(function() {
-            $("#selectImageButton").click(function() {
-                // Get the file input element
-                const fileInput = $("#uploadImage")[0];
-                // Retrieve the selected file
-                const file = fileInput.files[0];
+        $(function () {
+            $(function () {
+                $("#selectImageButton").click(function () {
+                    // Get the file input element
+                    const fileInput = $("#uploadImage")[0];
+                    // Retrieve the selected file
+                    const file = fileInput.files[0];
 
-                if (file) {
-                    const imageType =
-                        /^image\//; // Regular expression to match image MIME types
+                    if (file) {
+                        const imageType =
+                            /^image\//; // Regular expression to match image MIME types
 
-                    if (!imageType.test(file.type)) {
-                        alert("Please select a valid image file.");
-                        // Clear the file input value to allow reselection
-                        event.target.value = null;
-                        return; // Stop further processing
-                    }
-                    const reader = new FileReader();
+                        if (!imageType.test(file.type)) {
+                            alert("Please select a valid image file.");
+                            // Clear the file input value to allow reselection
+                            event.target.value = null;
+                            return; // Stop further processing
+                        }
+                        const reader = new FileReader();
 
-                    reader.onload = function(event) {
-                        const image = new Image();
+                        reader.onload = function (event) {
+                            const image = new Image();
 
-                        image.onload = function() {
-                            EXIF.getData(image, function() {
-                                const metadata = {
-                                    name: file.name,
-                                    type: file.type,
-                                    size: file.size,
-                                    width: image.width,
-                                    height: image.height,
-                                    exifData: EXIF.getAllTags(this),
-                                    gpsData: EXIF.getTag(this,
-                                        "GPSLatitude") ? {
-                                        latitude: EXIF.getTag(this,
-                                            "GPSLatitude"),
-                                        longitude: EXIF.getTag(this,
-                                            "GPSLongitude"),
-                                    } : null,
-                                };
-                                console.log(metadata);
+                            image.onload = function () {
+                                EXIF.getData(image, function () {
+                                    const metadata = {
+                                        name: file.name,
+                                        type: file.type,
+                                        size: file.size,
+                                        width: image.width,
+                                        height: image.height,
+                                        exifData: EXIF.getAllTags(this),
+                                        gpsData: EXIF.getTag(this,
+                                            "GPSLatitude") ? {
+                                            latitude: EXIF.getTag(this,
+                                                "GPSLatitude"),
+                                            longitude: EXIF.getTag(this,
+                                                "GPSLongitude"),
+                                        } : null,
+                                    };
+                                    console.log(metadata);
 
-                                document.getElementById("output").innerHTML = `
+                                    document.getElementById("output").innerHTML = `
                             <p>Name: ${metadata.name}</p>
                             <p>Type: ${metadata.type}</p>
                             <p>Size: ${metadata.size} bytes</p>
                             <p>Width: ${metadata.width} pixels</p>
                             <p>Height: ${metadata.height} pixels</p>
                             <p>EXIF Data: ${JSON.stringify(
-                              metadata.exifData
-                            )}</p>
-                            <p>GPS Data: ${
-                              metadata.gpsData
-                                ? `Latitude: ${metadata.gpsData.latitude}, Longitude: ${metadata.gpsData.longitude}`
-                                : "No GPS data found"
-                            }</p>
+                                        metadata.exifData
+                                    )}</p>
+                            <p>GPS Data: ${metadata.gpsData
+                                            ? `Latitude: ${metadata.gpsData.latitude}, Longitude: ${metadata.gpsData.longitude}`
+                                            : "No GPS data found"
+                                        }</p>
               
                         `;
-                            });
+                                });
+                            };
+
+                            image.src = event.target.result;
                         };
 
-                        image.src = event.target.result;
-                    };
-
-                    reader.readAsDataURL(file);
-                }
+                        reader.readAsDataURL(file);
+                    }
+                });
             });
         });
-    });
     </script>
 </body>
 
