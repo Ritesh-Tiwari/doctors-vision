@@ -15,18 +15,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Set session variables
         $_SESSION["is_login"] = True;
         $_SESSION['username'] = $username;
-        echo "Logged in";
+        $_SESSION['msg'] = "Please wait your are loggin...";
+        $_SESSION['color'] = "text-success";
         
         // Redirect to another page
-        header("Location: index.php");
+        header("Location: message.php");
         exit();
 
         // Flush the output buffer
         ob_end_flush();
 
     }else{
-        echo "Wrong username and password...";
-        header("Location: login.html");
+        $_SESSION['msg'] = "Wrong username and password...";
+        $_SESSION['color'] = "text-secondary";
+        // Redirect to another page
+        header("Location: message.php");
         exit();
 
         // Flush the output buffer
@@ -34,8 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 }else{
-    echo "Form was not submitted correctly.";
-    header("Location: login.html");
+    $_SESSION['msg'] = "Form was not submitted correctly.";
+    $_SESSION['color'] = "text-secondary";
+    // Redirect to another page
+    header("Location: message.php");
     exit();
 
     // Flush the output buffer

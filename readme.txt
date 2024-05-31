@@ -17,18 +17,22 @@ Defult Username and Passowrd
 -----------------------------------------------------
 File structure
 
+* assets :
+    - css files
+    - js files
+    - image files
+
 * connection.php
 * login.html 
 * login.php
 * index page 
 * upload_image.php
 * upload.php
-* test.php
+* delete.-image.php
+* message.php
 * share-files:
     - images
 
-* images :
-    - background and logo images
 
 ---------------------------------------------------------------------------------
 

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +9,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <!-- Bootstrap CSS v5.3.1 -->
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
@@ -22,13 +24,13 @@
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-        body {
-            background-image: url("assets/images/pexels-shvetsa-4167539.jpg");
-            background-repeat: no-repeat;
-            background-position: top;
-            background-size: cover;
-            height: 99vh;
-        }
+    body {
+        background-image: url("assets/images/pexels-tiana-18128-234272.jpg");
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: cover;
+        height: 99vh;
+    }
     </style>
 </head>
 
@@ -40,29 +42,17 @@
                     <div class="card-body">
                         <h5 class="card-title text-center m-3">
                             <b>
-                                Login to <span class="text-success"><b>Doctor's Vision</b></span>
+                                Doctor's <span class="text-success"> Vision</span>
                             </b>
                         </h5>
-                        <div class="form my-5">
-                            <form action="login.php" method="post">
-                                <div class="form-group">
-                                    <label for="my-input"><b>Username</b></label>
-                                    <input id="username" class="form-control" type="text" name="username"
-                                        placeholder="Your username please..." />
-                                </div>
-                                <br />
-                                <div class="form-group">
-                                    <label for="my-input"><b>Password</b></label>
-                                    <input id="password" class="form-control" type="password" name="password"
-                                        placeholder="Your password please..." />
-                                </div>
-                                <br /><br />
-                                <div class="d-flex justify-content-between">
-                                    <button type="reset" class="btn btn-primary">Cancel</button>
-                                    <button type="submit" class="btn btn-success">Login</button>
-                                </div>
-                            </form>
+                        <div class="text-center my-5">
+                            <h5 class="<?php echo $_SESSION['color'];?>"><b>
+                                    <?php echo $_SESSION['msg']; ?></b></h5>
+                            <br>
+                            <p>If you are not redirected automatically, follow this <br> <a href="index.php">link to the
+                                    homepage</a>.</p>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -71,10 +61,18 @@
     <footer>
         <!-- place footer here -->
     </footer>
+    <!-- Bootstrap JavaScript Libraries -->
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+    // Redirect after 5 seconds (5000 milliseconds)
+    setTimeout(function() {
+        window.location.href = 'index.php';
+    }, 5000);
+    </script>
 </body>
 
 </html>

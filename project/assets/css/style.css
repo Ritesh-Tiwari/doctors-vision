@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "PT Serif", serif;
+    font-weight: 400;
+    font-style: normal;
+    transition: transform .2s;
+}
+
+
+label:hover,
+b:hover,
+.card-title:hover,
+p:hover,
+.nav-link:hover {
+    color: red;
+    transform: scale(1.08);
+}
+
+.card {
+    transition: transform .2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+
+}
+
+button {
+    transition: transform .2s;
+}
+
+button:hover {
+    transform: scale(1.1);
+
+}
+
+#username,
+#password {
+    background-color: rgb(211, 211, 211);
+}
