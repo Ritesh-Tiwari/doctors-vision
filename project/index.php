@@ -15,7 +15,7 @@ if (!$_SESSION['is_login']){
 <html lang="en">
 
 <head>
-    <title>Doctor's Vision | Cloud97</title>
+    <title>Doctor's Vision </title>
     <!-- Required meta tags -->
 
     <meta charset="utf-8" />
@@ -28,8 +28,6 @@ if (!$_SESSION['is_login']){
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
-    <!-- fontawesome -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="assets/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
 
@@ -45,8 +43,9 @@ if (!$_SESSION['is_login']){
 
 <body>
     <main>
+        <!-- Menu Section -->
         <div class="container my-5">
-            <div class="card shadow-lg">
+            <div class="card nav-menu shadow-lg">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="me-auto">
@@ -60,13 +59,15 @@ if (!$_SESSION['is_login']){
                             <a name="upload-image" id="upload-image" class="btn btn-success"
                                 href="upload_image.php">Upload Images</a>
                         </div>
-                        <div class="px-1"><a name="upload-image" id="upload-image" class="btn btn-secondary"
+                        <div class="px-1"><a name="upload-image" id="logout" class="btn btn-secondary"
                                 href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- End Menu Section -->
+        <!-- Image section -->
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -87,7 +88,7 @@ if (!$_SESSION['is_login']){
                                     <div class="card-footer">
                                         <a class="btn btn-success" href="share-files/'.$fileinfo->getFilename().'" download> Download </a>
                                         <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/'.$fileinfo->getFilename().'"> Delete </a>
-                                    
+                                                   
                                     </div>
                                 </div>
                             </div>';
@@ -104,9 +105,22 @@ if (!$_SESSION['is_login']){
             </div>
 
         </div>
+
+        <!-- End Image Ssection -->
     </main>
-    <footer>
-        <!-- place footer here -->
+    <footer class="pt-5 pb-3">
+        <hr>
+        <div class="container">
+            <div class="text-center">
+
+                <p><b>
+                        &copy;
+                        <?php echo date("Y"); ?> Cloud97. All rights reserved.
+
+                    </b></p>
+            </div>
+
+        </div>
     </footer>
 
     <!-- Bootstrap JavaScript Libraries -->

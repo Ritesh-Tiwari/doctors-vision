@@ -3,13 +3,15 @@ require_once('connection.php');
 // Start the session
 session_start();
 
-// Check if form is submitted
+// Check if form submission method is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
+    // Collect all form values
     $username = $_POST['username'];
     $password = $_POST['password'];
     $username = filter_var($username, FILTER_SANITIZE_STRING);
 
+    // Check if the username and password are correct
     if ($username ==username && $password==password){
 
         // Set session variables

@@ -1,11 +1,21 @@
 <?php
 session_start();
+if (!$_SESSION['is_login']){
+
+    // Redirect to another page
+    header("Location: login.html");
+    exit();
+    
+    // Flush the output buffer
+    ob_end_flush();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Doctor's Vision | Cloud97</title>
+    <title>Message - Doctor's Vision </title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -29,7 +39,7 @@ session_start();
         background-repeat: no-repeat;
         background-position: top;
         background-size: cover;
-        height: 99vh;
+        height: 100vh;
     }
     </style>
 </head>
@@ -37,7 +47,7 @@ session_start();
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-6 mx-auto">
+            <div class="col-11 col-md-6 col-lg-6 col-sm-6 mx-auto">
                 <div class="card shadow-lg rounded" style="background-color: transparent; margin-top: 100px">
                     <div class="card-body">
                         <h5 class="card-title text-center m-3">

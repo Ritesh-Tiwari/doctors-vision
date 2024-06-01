@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// Check if the form is submitted or not
 if (isset($_POST['submit'])) {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
         $file_name = $_FILES['image']['name'];

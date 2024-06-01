@@ -64,7 +64,7 @@ Create a local domain name
 
 nginx site-enbaled configuration Settings
 
-1. Go to site-enabled folder || cd /etc/nginx/site-enabled
+1. Go to site-enabled folder || cd /etc/nginx/site-enabled/
 2. Copy and paste the doctor-vision.io file into the site-enabled folder. cp source_file destination_path
 3. Restart nginx server || sudo systemctl restart nginx
 4. http://doctors-vision.io/
