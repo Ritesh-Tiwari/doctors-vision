@@ -34,9 +34,9 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-        body {
-            background-color: rgb(225, 223, 219);
-        }
+    body {
+        background-color: rgb(225, 223, 219);
+    }
     </style>
 
 </head>
@@ -86,7 +86,7 @@ if (!$_SESSION['is_login']){
                                         <h5 >'. $fileinfo->getFilename() .'</h5>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-success" href="share-files/'.$fileinfo->getFilename().'" download> Download </a>
+                                        <a class="btn btn-success" href="share-files/'.$fileinfo->getFilename().'" download> Submit </a>
                                         <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/'.$fileinfo->getFilename().'"> Delete </a>
                                                    
                                     </div>
@@ -108,20 +108,6 @@ if (!$_SESSION['is_login']){
 
         <!-- End Image Ssection -->
     </main>
-    <footer class="pt-5 pb-3">
-        <hr>
-        <div class="container">
-            <div class="text-center">
-
-                <p><b>
-                        &copy;
-                        <?php echo date("Y"); ?> Cloud97. All rights reserved.
-
-                    </b></p>
-            </div>
-
-        </div>
-    </footer>
 
     <!-- Bootstrap JavaScript Libraries -->
     <script src="assets/js/popper.min.js"></script>

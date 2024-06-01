@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Set session variables
         $_SESSION["is_login"] = True;
         $_SESSION['username'] = $username;
-        $_SESSION['msg'] = "Please wait your are loggin...";
+        $_SESSION['msg'] = "Please wait, you are logging in...";
         $_SESSION['color'] = "text-success";
         
         // Redirect to another page
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ob_end_flush();
 
     }else{
-        $_SESSION['msg'] = "Wrong username and password...";
+        $_SESSION['msg'] = "Incorrect username and password...";
         $_SESSION['color'] = "text-secondary";
         // Redirect to another page
         header("Location: message.php");
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     }
 }else{
-    $_SESSION['msg'] = "Form was not submitted correctly.";
+    $_SESSION['msg'] = "The form was not submitted correctly.";
     $_SESSION['color'] = "text-secondary";
     // Redirect to another page
     header("Location: message.php");

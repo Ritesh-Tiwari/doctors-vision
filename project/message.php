@@ -34,13 +34,13 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-    body {
-        background-image: url("assets/images/pexels-tiana-18128-234272.jpg");
-        background-repeat: no-repeat;
-        background-position: top;
-        background-size: cover;
-        height: 100vh;
-    }
+        body {
+            background-image: url("assets/images/message-background.jpg");
+            background-repeat: no-repeat;
+            background-position: top;
+            background-size: cover;
+            height: 100vh;
+        }
     </style>
 </head>
 
@@ -48,16 +48,18 @@ if (!$_SESSION['is_login']){
     <div class="container">
         <div class="row">
             <div class="col-11 col-md-6 col-lg-6 col-sm-6 mx-auto">
-                <div class="card shadow-lg rounded" style="background-color: transparent; margin-top: 100px">
+                <div class="card shadow-lg rounded"
+                    style="background-color: rgba(210, 212, 214, 0.5); margin-top: 100px">
                     <div class="card-body">
                         <h5 class="card-title text-center m-3">
                             <b>
-                                Doctor's <span class="text-success"> Vision</span>
+                                Doctor's <span class="text-success"><b> Vision </b></span>
                             </b>
                         </h5>
                         <div class="text-center my-5">
                             <h5 class="<?php echo $_SESSION['color'];?>"><b>
-                                    <?php echo $_SESSION['msg']; ?></b></h5>
+                                    <?php echo $_SESSION['msg']; ?>
+                                </b></h5>
                             <br>
                             <p>If you are not redirected automatically, follow this <br> <a href="index.php">link to the
                                     homepage</a>.</p>
@@ -78,10 +80,10 @@ if (!$_SESSION['is_login']){
     <script src="assets/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-    // Redirect after 5 seconds (5000 milliseconds)
-    setTimeout(function() {
-        window.location.href = 'index.php';
-    }, 5000);
+        // Redirect after 5 seconds (5000 milliseconds)
+        setTimeout(function () {
+            window.location.href = 'index.php';
+        }, 5000);
     </script>
 </body>
 

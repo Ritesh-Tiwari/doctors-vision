@@ -21,7 +21,7 @@
 
   <style>
     body {
-      background-image: url("assets/images/pexels-shvetsa-4167539.jpg");
+      background-image: url("assets/images/login-background.jpg");
       background-repeat: no-repeat;
       background-position: top;
       background-size: cover;
@@ -35,12 +35,18 @@
   <div class="container">
     <div class="row">
       <div class="col-11 col-md-6 col-lg-6 col-sm-6 mx-auto">
-        <div class="card shadow-lg rounded" style="background-color: transparent; margin-top: 100px">
-          <div class="card-body">
+        <div class="text-center pt-5 pb-4">
+          <h2> <b>Doctor's<span class="text-success"><b> Vision</b></span></b>
+            <hr>
+          </h2>
+        </div>
+
+        <div class=" card shadow-lg rounded" style="background-color: rgba(210, 212, 214, 0.5);">
+          <div class=" card-body">
             <h5 class="card-title text-center m-3">
               <b>
                 Login to
-                <span class="text-success"><b>Doctor's Vision</b></span>
+                <span class="text-success"><b>Continue</b></span>
               </b>
             </h5>
             <div class="form my-5">
@@ -49,13 +55,13 @@
                 <div class="form-group">
                   <label for="my-input"><b>Username</b></label>
                   <input id="username" class="form-control" type="text" name="username"
-                    placeholder="Your username please..." />
+                    placeholder="Your username please..." required />
                 </div>
                 <br />
                 <div class="form-group">
                   <label for="my-input"><b>Password</b></label>
                   <input id="password" class="form-control" type="password" name="password"
-                    placeholder="Your password please..." />
+                    placeholder="Your password please..." required />
                 </div>
                 <br /><br />
                 <div class="d-flex justify-content-between">
