@@ -35,55 +35,72 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-    body {
-        background-color: rgb(225, 223, 219);
-    }
-
-    h3:hover,
-    h4:hover {
-        color: red;
-        transform: scale(1.05);
-    }
-
-    @media only screen and (max-width: 600px) {
-        .image-box {
-            width: 100%;
-
+        body {
+            background-color: rgb(225, 223, 219);
         }
 
-        .container h3 {
-            font-size: 13px;
-
+        h3:hover,
+        h4:hover {
+            color: red;
+            transform: scale(1.05);
         }
-    }
 
-    .image-box {
-        background-color: transparent;
-        width: 100%;
-        align-items: center;
+        .file-input {
+            display: none;
+        }
 
-    }
+        .file-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e45151;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .file-btn:hover {
+            background-color: #ea876b;
+        }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .image-preview img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #9d9999;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
 <body>
     <main>
         <!-- Menu Section -->
-        <div class="container my-5">
+        <div class="container-fluid px-0">
             <div class="card nav-menu shadow-lg">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="me-auto">
-                            <h5 class="text-dark">
+                            <h5 class="text-dark mx-5 fs-3 ">
                                 <a href="./" class="nav-link" rel="noopener noreferrer">
                                     <b>Doctor's <span class="text-success"><b>Vision</b></span></b>
                                 </a>
                             </h5>
                         </div>
-                        <div class="px-1">
+                        <div class="mx-2">
                             <a name="upload-image" id="upload-image" class="btn btn-success" href="./">Home</a>
                         </div>
-                        <div class="px-1"><a name="upload-image" id="upload-image" class="btn btn-secondary"
+                        <div class="me-5"><a name="upload-image" id="upload-image" class="btn btn-secondary"
                                 href="logout.php">Logout</a>
                         </div>
                     </div>
@@ -92,129 +109,57 @@ if (!$_SESSION['is_login']){
         </div>
         <!-- End Menu Section  -->
         <div class="container">
-            <h3 class="fs-lg-3 fw-bold text-dark">Upload your files</h3>
-            <div class="pt-3">
-                <div class="row py-3 mb-4 d-flex justify-content-center">
-                    <!-- Image upload section -->
-                    <div class="col-12 col-lg-5 col-md-5 col-sm-11 me-lg-auto">
-                        <div class="card shadow-lg p-3 mb-5 bg-body rounded image-box">
-                            <!-- image preview  -->
-                            <img src="assets/images/default-image.jpg" id="uploadPreview" class="card-img-top"
-                                alt="Image Preview" />
-                            <div class="card-body">
-                                <!-- Upload image form -->
-                                <form action="upload.php" method="POST" enctype="multipart/form-data">
-                                    <h5 class="card-title">Upload image</h5>
-                                    <input type="file" name="image" id="uploadImage" class="py-3"
-                                        onchange="PreviewImage();" style="overflow: hidden"
-                                        accept="image/png, image/gif, image/jpeg" required />
-                                    <button type="submit" name="submit" class="btn btn-success">Upload</button>
-                                </form>
-                                <!-- End form -->
-                            </div>
-                        </div>
+            <br>
+            <h3 class="fs-1 fw-bolder">Share your files </h3>
 
-                        <script type="text/javascript">
-                        function PreviewImage() {
-                            var oFReader = new FileReader();
-                            oFReader.readAsDataURL(
-                                document.getElementById("uploadImage").files[0]
-                            );
+            <form action="upload.php" method="post" class="mt-3 mb-5" enctype="multipart/form-data">
+                <div class="d-flex">
+                    <button type="button" id="btn-select" class="btn btn-danger"
+                        onclick="document.getElementById('imageInput').click();">
+                        <strong> <i class="fa fa-plus" aria-hidden="true"></i> Select Image Files </strong></button>
 
-                            // document.getElementById("output").textContent = ;
+                    <button type="submit" id="btn-upload" class="btn btn-success mx-3 ">Upload files</button>
 
-                            oFReader.onload = function(oFREvent) {
-                                document.getElementById("uploadPreview").src =
-                                    oFREvent.target.result;
-                            };
-
-                            //  image details : 
-                            // Get the file input element
-                            const fileInput = $("#uploadImage")[0];
-                            // Retrieve the selected file
-                            const file = fileInput.files[0];
-
-                            if (file) {
-                                const imageType =
-                                    /^image\//; // Regular expression to match image MIME types
-
-                                if (!imageType.test(file.type)) {
-                                    alert("Please select a valid image file.");
-                                    // Clear the file input value to allow reselection
-                                    event.target.value = null;
-                                    return; // Stop further processing
-                                }
-                                const reader = new FileReader();
-
-                                reader.onload = function(event) {
-                                    const image = new Image();
-
-                                    image.onload = function() {
-                                        EXIF.getData(image, function() {
-                                            const metadata = {
-                                                name: file.name,
-                                                type: file.type,
-                                                size: file.size,
-                                                width: image.width,
-                                                height: image.height,
-                                                exifData: EXIF.getAllTags(this),
-                                                gpsData: EXIF.getTag(this,
-                                                    "GPSLatitude") ? {
-                                                    latitude: EXIF.getTag(this,
-                                                        "GPSLatitude"),
-                                                    longitude: EXIF.getTag(this,
-                                                        "GPSLongitude"),
-                                                } : null,
-                                            };
-                                            console.log(metadata);
-
-                                            document.getElementById("output").innerHTML = `
-                            <p>Name: ${metadata.name}</p>
-                            <p>Type: ${metadata.type}</p>
-                            <p>Size: ${metadata.size} bytes</p>
-                            <p>Width: ${metadata.width} pixels</p>
-                            <p>Height: ${metadata.height} pixels</p>
-                            <p>EXIF Data: ${JSON.stringify(
-                                                    metadata.exifData
-                                                )}</p>
-                            <p>GPS Data: ${metadata.gpsData
-                                                        ? `Latitude: ${metadata.gpsData.latitude}, Longitude: ${metadata.gpsData.longitude}`
-                                                        : "No GPS data found"
-                                                    }</p>
-              
-                        `;
-                                        });
-                                    };
-
-                                    image.src = event.target.result;
-                                };
-
-                                reader.readAsDataURL(file);
-                            }
-                        }
-                        </script>
-                    </div>
-                    <!-- End Image upload section -->
-
-                    <!-- Image Information section  -->
-                    <div class="shadow-lg p-3 mb-5 bg-body rounded col-12 col-lg-6 col-md-6 col-sm-11">
-                        <div>
-                            <h4 class="p-2">Image Informations:</h4>
-                            <br />
-                            <div class="ps-2" id="output"></div>
-                        </div>
-                    </div>
-                    <!-- End Image Informatino section -->
                 </div>
-            </div>
+                <input type="file" name="images[]" class="file-input" accept="image/*" multiple id="imageInput">
+                <br>
+                <div class="image-preview " id="imagePreview"></div>
+
+            </form>
+
+            <script>
+                document.getElementById('imageInput').addEventListener('change', function (event) {
+                    const imagePreview = document.getElementById('imagePreview');
+                    imagePreview.innerHTML = ''; // Clear previous previews
+                    const files = event.target.files;
+
+                    Array.from(files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const imgElement = document.createElement('img');
+                            imgElement.src = e.target.result;
+                            imagePreview.appendChild(imgElement);
+                        };
+                        reader.readAsDataURL(file);
+
+
+                    });
+
+                });
+            </script>
         </div>
-    </main>
-
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 
 
+        <script>
+            $(document).ready(function () {
+                $("#btn-upload").hide();
+                $("#btn-select").click(function () {
+                    $("#btn-upload").show();
+
+                });
+
+            });
+        </script>
 </body>
 
 </html>

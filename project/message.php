@@ -61,7 +61,7 @@ if (!$_SESSION['is_login']){
                                     <?php echo $_SESSION['msg']; ?>
                                 </b></h5>
                             <br>
-                            <p>If you are not redirected automatically, follow this <br> <a href="index.php">link to the
+                            <p>If you are not redirected automatically, follow this <br> <a href="/">link to the
                                     homepage</a>.</p>
                         </div>
 
@@ -82,7 +82,7 @@ if (!$_SESSION['is_login']){
     <script type="text/javascript">
         // Redirect after 5 seconds (5000 milliseconds)
         setTimeout(function () {
-            window.location.href = 'index.php';
+            window.location.href = '/';
         }, 5000);
     </script>
 </body>

@@ -44,22 +44,22 @@ if (!$_SESSION['is_login']){
 <body>
     <main>
         <!-- Menu Section -->
-        <div class="container my-5">
+        <div class="container-fluid px-0">
             <div class="card nav-menu shadow-lg">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="me-auto">
-                            <h5 class="text-dark">
+                            <h5 class="text-dark mx-5 fs-3">
                                 <a href="./" class="nav-link" rel="noopener noreferrer">
                                     <b>Doctor's <span class="text-success"><b>Vision</b></span></b>
                                 </a>
                             </h5>
                         </div>
-                        <div class="px-1">
+                        <div class="mx-2">
                             <a name="upload-image" id="upload-image" class="btn btn-success"
                                 href="upload_image.php">Upload Images</a>
                         </div>
-                        <div class="px-1"><a name="upload-image" id="logout" class="btn btn-secondary"
+                        <div class="me-5"><a name="upload-image" id="logout" class="btn btn-secondary"
                                 href="logout.php">Logout</a>
                         </div>
                     </div>
@@ -68,10 +68,21 @@ if (!$_SESSION['is_login']){
         </div>
         <!-- End Menu Section -->
         <!-- Image section -->
-        <div class="container">
+        <div class="container mt-5">
             <div class="row">
+                <?php
+
+                    $empty = (count(glob("./share-files/*")) === 0) ? 1 : 0;
+                    if ($empty===1){
+                        echo "<div class='text-center'>";
+                        echo '<img src="assets/images/not-found.jpg"  width="200px" style="border-radius: 50%;" />';
+                        echo "<div class='mt-2'><h3 class='text-center'><b>Image files not Found. <br> Upload your images </b> </h3></div>";
+                        echo "</div>";
+                    }
+
+                ?>
                 <div class="col-12">
-                    <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
                         <?php
                     $directory = "share-files/"; // Replace with your directory path
                     $iterator = new DirectoryIterator($directory);
@@ -83,10 +94,10 @@ if (!$_SESSION['is_login']){
                                 <div class="card h-100">
                                     <img src="share-files/'.$fileinfo->getFilename().'" class="card-img-top" alt="'.$fileinfo->getFilename().'" style="height: 200px; width: 100%;">
                                     <div class="card-body">
-                                        <h5 >'. $fileinfo->getFilename() .'</h5>
+                                        <p><b>'. $fileinfo->getFilename() .'</b></p>
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-success" href="share-files/'.$fileinfo->getFilename().'" download> Submit </a>
+                                        <a class="btn btn-success" href="details.php" disabled "> Report </a>
                                         <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/'.$fileinfo->getFilename().'"> Delete </a>
                                                    
                                     </div>

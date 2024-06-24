@@ -1,62 +1,52 @@
 <?php
 session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $uploadDir = './share-files/';
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $maxSize = 20 * 1024 * 1024; // 20 MB
 
-// Check if the form is submitted or not
-if (isset($_POST['submit'])) {
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == UPLOAD_ERR_OK) {
-        $file_name = $_FILES['image']['name'];
-        $tempname = $_FILES['image']['tmp_name'];
-        $file_size = $_FILES['image']['size'];
-        $file_type = $_FILES['image']['type'];
+    // if (!is_dir($uploadDir)) {
+    //     // mkdir($uploadDir, 0777, true);
+    // }
 
-        // Validate file type and size (optional)
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        $max_size = 20 * 1024 * 1024; // 20 MB
-
-        if (in_array($file_type, $allowed_types) && $file_size <= $max_size) {
-            $folder = './share-files/' . $file_name;
-            if (move_uploaded_file($tempname, $folder)) {
-                $_SESSION['msg']    = "Image uploaded successfully";
-                $_SESSION['color']  = 'text-success';
-               // Redirect to another page
-                header("Location: message.php");
-                exit();
-
-                // Flush the output buffer
-                ob_end_flush();
-
+    foreach ($_FILES['images']['name'] as $key => $name) {
+        $fileTmpPath = $_FILES['images']['tmp_name'][$key];
+        $fileType = mime_content_type($fileTmpPath);
+        $fileExtension = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($name));
+        $targetFile = $uploadDir . $safeName;
+        $msg ='';
+        if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
+            if (in_array($fileType, $allowedTypes) && in_array($fileExtension, $allowedExtensions)) {
+                if ($_FILES['images']['size'][$key] <= $maxSize) {
+                    
+                    if (move_uploaded_file($fileTmpPath, $targetFile)) {
+                        echo  "File $safeName uploaded successfully. <a href='/'> go to Home</a> <br>"; 
+                        
+                    } else {
+                        echo "Error 3002: Failed to upload $safeName.  <br>";
+                    }
+                } else {
+                    echo "File $safeName exceeds the maximum size limit.<br>";
+                }
             } else {
-                $_SESSION['msg']    = "Image Upload failed";
-                $_SESSION['color']  = "text-secondary";  
-                // Redirect to another page
-               header("Location: message.php");
-               exit();
-
-               // Flush the output buffer
-               ob_end_flush();
-
+                echo "Invalid file type for $safeName.<br>";
             }
         } else {
-            $_SESSION['msg']    = "Invalid file type or size.";
-            $_SESSION['color']  = "text-secondary";
-            // Redirect to another page
-             header("Location: message.php");
-             exit();
-
-             // Flush the output buffer
-             ob_end_flush();
-
+            echo "Error uploading $safeName. Error code: " . $_FILES['images']['error'][$key] . "<br>";
         }
-    } else {
-        $_SESSION['msg']    = "File upload error: " . $_FILES['image']['error'];
-        $_SESSION['color']  = "text-secondary";
-        // Redirect to another page
-         header("Location: message.php");
-         exit();
-
-         // Flush the output buffer
-         ob_end_flush();
-
     }
+
+} else {
+    echo "Invalid request method.";
 }
+
+echo '
+<script type="text/javascript">
+// Redirect after 5 seconds (5000 milliseconds)
+setTimeout(function() {
+    window.location.href = "index.php";
+}, 5000);
+</script>';
 ?>
