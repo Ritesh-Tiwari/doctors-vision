@@ -100,7 +100,7 @@ if (!$_SESSION['is_login']){
                                     // Perform AJAX request using getJSON
                                     $.getJSON(jsonFileUrl, function (data) {
                                         console.log("JSON data:", data);
-                                        $("#backend-result").text("Category: " + data);
+                                        $("#backend-result").text("Results : " + data);
                                     }).fail(function (jqXHR, textStatus, errorThrown) {
                                         console.error("Error reading JSON file:", textStatus, errorThrown);
                                         $("#backend-result").text("Error reading JSON file.");
