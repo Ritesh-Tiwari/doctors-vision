@@ -3,7 +3,7 @@
 if (!$_SESSION['is_login']){
 
     // Redirect to another page
-    header("Location: login.html");
+    header("Location: login_page.php");
     exit();
     
     // Flush the output buffer
@@ -11,6 +11,7 @@ if (!$_SESSION['is_login']){
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,7 +37,7 @@ if (!$_SESSION['is_login']){
 
     <style>
         body {
-            background-color: rgb(225, 223, 219);
+            background-color: rgb(255, 255, 255);
         }
 
         h3:hover,
@@ -80,50 +81,40 @@ if (!$_SESSION['is_login']){
             padding: 10px;
             border-radius: 10px;
         }
+
+        #btn-upload:hover {
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
     <main>
+
         <!-- Menu Section -->
-        <div class="container-fluid px-0">
-            <div class="card nav-menu shadow-lg">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="me-auto">
-                            <h5 class="text-dark mx-5 fs-3 ">
-                                <a href="./" class="nav-link" rel="noopener noreferrer">
-                                    <b>Doctor's <span class="text-success"><b>Vision</b></span></b>
-                                </a>
-                            </h5>
-                        </div>
-                        <div class="mx-2">
-                            <a name="upload-image" id="upload-image" class="btn btn-success" href="./">Home</a>
-                        </div>
-                        <div class="me-5"><a name="upload-image" id="upload-image" class="btn btn-secondary"
-                                href="logout.php">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Menu Section  -->
+        <?php
+        include "nav.php";
+         ?>
+        <!-- End Menu Section -->
         <div class="container">
             <br>
-            <h3 class="fs-1 fw-bolder">Share your files </h3>
+            <h5 class="fs-3 fw-bolder">Upload an image... </h5>
 
             <form action="upload.php" method="post" class="mt-3 mb-5" enctype="multipart/form-data">
                 <div class="d-flex">
                     <button type="button" id="btn-select" class="btn btn-danger"
                         onclick="document.getElementById('imageInput').click();">
-                        <strong> <i class="fa fa-plus" aria-hidden="true"></i> Select Image Files </strong></button>
+                        <strong> <i class="fa fa-plus" aria-hidden="true"></i> Browse Files </strong></button>
 
-                    <button type="submit" id="btn-upload" class="btn btn-success mx-3 ">Upload files</button>
+                    <button type="submit" id="btn-upload" class="btn btn-outline-danger mx-3 fw-bold">Classify</button>
 
                 </div>
                 <input type="file" name="images[]" class="file-input" accept="image/*" multiple id="imageInput">
                 <br>
                 <div class="image-preview " id="imagePreview"></div>
+
+
+
 
             </form>
 

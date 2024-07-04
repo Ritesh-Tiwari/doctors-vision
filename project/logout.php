@@ -6,7 +6,7 @@ session_start();
 session_destroy();
 
 // Redirect to another page
-header("Location: login.html");
+header("Location: login_page.php");
 exit();
 
 // Flush the output buffer

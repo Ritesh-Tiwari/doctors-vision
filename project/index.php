@@ -3,7 +3,7 @@
 if (!$_SESSION['is_login']){
 
     // Redirect to another page
-    header("Location: login.html");
+    header("Location: login_page.php");
     exit();
     
     // Flush the output buffer
@@ -34,41 +34,41 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-    body {
-        background-color: rgb(225, 223, 219);
-    }
+        body {
+            background-color: rgb(225, 223, 219);
+        }
     </style>
 
+    <script>
+        // $(document).ready(function () {
+        //     // Example: Get src on button click
+        //     $('.btn-success').on('click', function (event) {
+        //         event.preventDefault(); // Prevent the default action
+        //         var imgSrc = $(this).closest('.card').find('img').attr('src');
+
+        //         // Encode the src value
+        //         var encodedSrc = encodeURIComponent(imgSrc);
+
+        //         // Redirect to the new page with src as a query parameter
+        //         window.location.href = 'details.php?src=' + encodedSrc;
+
+        //     });
+
+
+        // });
+    </script>
 </head>
 
 <body>
     <main>
         <!-- Menu Section -->
-        <div class="container-fluid px-0">
-            <div class="card nav-menu shadow-lg">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="me-auto">
-                            <h5 class="text-dark mx-5 fs-3">
-                                <a href="./" class="nav-link" rel="noopener noreferrer">
-                                    <b>Doctor's <span class="text-success"><b>Vision</b></span></b>
-                                </a>
-                            </h5>
-                        </div>
-                        <div class="mx-2">
-                            <a name="upload-image" id="upload-image" class="btn btn-success"
-                                href="upload_image.php">Upload Images</a>
-                        </div>
-                        <div class="me-5"><a name="upload-image" id="logout" class="btn btn-secondary"
-                                href="logout.php">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php
+        include "nav.php";
+         ?>
         <!-- End Menu Section -->
         <!-- Image section -->
         <div class="container mt-5">
+
             <div class="row">
                 <?php
 
@@ -90,14 +90,33 @@ if (!$_SESSION['is_login']){
                     foreach ($iterator as $fileinfo) {
                         if ($fileinfo->isFile()) {
 
-                            echo '<div class="col">
+                            echo '
+                            
+                            <script>
+                                $(document).ready(function () {
+                                    // URL of the JSON file
+                                    var jsonFileUrl = "./data.json";
+
+                                    // Perform AJAX request using getJSON
+                                    $.getJSON(jsonFileUrl, function (data) {
+                                        console.log("JSON data:", data);
+                                        $("#backend-result").text("Category: " + data);
+                                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                                        console.error("Error reading JSON file:", textStatus, errorThrown);
+                                        $("#backend-result").text("Error reading JSON file.");
+                                    });
+                                });
+                            </script>
+                            <div class="col">
                                 <div class="card h-100">
                                     <img src="share-files/'.$fileinfo->getFilename().'" class="card-img-top" alt="'.$fileinfo->getFilename().'" style="height: 200px; width: 100%;">
                                     <div class="card-body">
                                         <p><b>'. $fileinfo->getFilename() .'</b></p>
+                                        <p id="backend-result"></p>
+
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-success" href="details.php" disabled "> Report </a>
+                                        <a class="btn btn-success" href="details.php?src=share-files/'.$fileinfo->getFilename().'" target="_blank"> Report </a>
                                         <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/'.$fileinfo->getFilename().'"> Delete </a>
                                                    
                                     </div>
@@ -120,9 +139,11 @@ if (!$_SESSION['is_login']){
         <!-- End Image Ssection -->
     </main>
 
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
+
 
 </body>
 

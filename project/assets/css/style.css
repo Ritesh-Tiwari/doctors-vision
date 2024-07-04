@@ -32,18 +32,17 @@
 
 label:hover,
 b:hover,
-.card-title:hover,
-p:hover,
-.nav-link:hover {
+.container .card-title:hover,
+p:hover {
     color: red;
     transform: scale(1.08);
 }
 
-.card {
+.container .card {
     transition: transform .2s;
 }
 
-.card:hover {
+.container .card:hover {
     transform: scale(1.05);
 
 }

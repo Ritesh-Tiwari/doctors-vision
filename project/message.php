@@ -1,9 +1,9 @@
 <?php
-session_start();
+@session_start();
 if (!$_SESSION['is_login']){
 
     // Redirect to another page
-    header("Location: login.html");
+    header("Location: login_page.php");
     exit();
     
     // Flush the output buffer

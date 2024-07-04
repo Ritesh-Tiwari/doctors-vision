@@ -37,8 +37,13 @@ server {
 	# Don't use them in a production server!
 	#
 	# include snippets/snakeoil.conf;
-
+	
+	# Comment this code when you work on a live project 
 	root /home/avcdev/Desktop/doctor's-vision/project;
+
+	# Comment this code when you are testing your project
+	# root /var/www/html;
+
 
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;

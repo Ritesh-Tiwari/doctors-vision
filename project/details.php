@@ -1,13 +1,22 @@
-<!-- Work in progress --><?php
+<?php
 @session_start();
 if (!$_SESSION['is_login']){
 
     // Redirect to another page
-    header("Location: login.html");
+    header("Location: login_page.php");
     exit();
     
     // Flush the output buffer
     ob_end_flush();
+}
+
+
+// Check if 'src' parameter is set
+if (isset($_GET['src'])) {
+    $src = $_GET['src']; // Decode the URL-encoded src
+ 
+} else {
+    echo "<p>No image source provided.</p>";
 }
 
 ?>
@@ -35,169 +44,128 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-    body {
-        background-color: rgb(225, 223, 219);
-    }
+        body {
+            background-color: rgb(225, 223, 219);
+        }
 
-    h3:hover,
-    h4:hover {
-        color: red;
-        transform: scale(1.05);
-    }
+        h3:hover,
+        h4:hover {
+            color: red;
+            transform: scale(1.05);
+        }
 
-    @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 600px) {
+            .image-box {
+                width: 100%;
+
+            }
+
+            .container h3 {
+                font-size: 13px;
+
+            }
+        }
+
         .image-box {
+            background-color: transparent;
             width: 100%;
+            align-items: center;
 
         }
-
-        .container h3 {
-            font-size: 13px;
-
-        }
-    }
-
-    .image-box {
-        background-color: transparent;
-        width: 100%;
-        align-items: center;
-
-    }
     </style>
 </head>
 
 <body>
     <main>
+
+
         <!-- Menu Section -->
-        <div class="container-fluid px-0">
-            <div class="card nav-menu shadow-lg">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="me-auto">
-                            <h5 class="text-dark mx-5 fs-3 ">
-                                <a href="./" class="nav-link" rel="noopener noreferrer">
-                                    <b>Doctor's <span class="text-success"><b>Vision</b></span></b>
-                                </a>
-                            </h5>
-                        </div>
-                        <div class="mx-2">
-                            <a name="upload-image" id="upload-image" class="btn btn-success" href="./">Home</a>
-                        </div>
-                        <div class="me-5"><a name="upload-image" id="upload-image" class="btn btn-secondary"
-                                href="logout.php">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php
+        include "nav.php";
+         ?>
+        <!-- End Menu Section -->
         <!-- End Menu Section  -->
         <div class="container">
             <br>
-            <h3 class="fs-lg-3 fw-bold text-dark">Report</h3>
-            <div class="pt-3">
-                <div class="row py-3 mb-4 d-flex justify-content-center">
-                    <!-- Image upload section -->
-                    <div class="col-12 col-lg-3 col-md-4 col-sm-11 me-lg-auto">
-                        <div class="card shadow-lg p-3 mb-5 bg-body rounded image-box">
-                            <!-- image preview  -->
-                            <img src="assets/images/default-image.jpg" id="uploadPreview" class="card-img-top"
-                                alt="Image Preview" />
+            <h3 class="fs-lg-3 fw-bold text-dark">Overview of Report</h3>
+            <div class="row">
+                <div class="pt-3">
+                    <div class="row py-3 mb-4 d-flex justify-content-center">
+                        <!-- Image upload section -->
+                        <div class="col-12 col-lg-3 col-md-4 col-sm-11 me-lg-auto">
+                            <div class="card shadow-lg p-3 mb-5 bg-body rounded image-box">
+                                <!-- image preview  -->
+                                <a href="<?php echo $src;?>" target="_blank"><img src="<?php echo $src;?>"
+                                        id="uploadPreview" class="card-img-top" alt="Image Preview" /></a>
+                            </div>
+
                         </div>
+                        <!-- End Image upload section -->
 
-                        <script type="text/javascript">
-                        function PreviewImage() {
-                            var oFReader = new FileReader();
-                            oFReader.readAsDataURL(
-                                document.getElementById("uploadImage").files[0]
-                            );
+                        <!-- Image Information section  -->
+                        <div class="shadow-lg p-3 mb-5 bg-body rounded col-12 col-lg-8 col-md-7 col-sm-11">
+                            <div>
+                                <style>
+                                    #output span {
+                                        color: rgb(11, 5, 68);
+                                    }
+                                </style>
+                                <div class="ps-2" id="output">
 
-                            // document.getElementById("output").textContent = ;
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <p><strong>Name </strong> </p>
 
-                            oFReader.onload = function(oFREvent) {
-                                document.getElementById("uploadPreview").src =
-                                    oFREvent.target.result;
-                            };
+                                        </div>
+                                        <div class="col-9">
+                                            <span id="name"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <p><strong>Age </strong> </p>
+                                        </div>
+                                        <div class="col-9">
+                                            <span id="age"></span>
+                                        </div>
+                                        <div class="col-3">
+                                            <p><strong>Phone No. </strong></p>
 
-                            //  image details : 
-                            // Get the file input element
-                            const fileInput = $("#uploadImage")[0];
-                            // Retrieve the selected file
-                            const file = fileInput.files[0];
+                                        </div>
+                                        <div class="col-9">
+                                            <span id="phone"></span>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <p><strong> Report Summary -</strong></p>
 
-                            if (file) {
-                                const imageType =
-                                    /^image\//; // Regular expression to match image MIME types
+                                        </div>
+                                        <div class="col-11 mx-auto">
 
-                                if (!imageType.test(file.type)) {
-                                    alert("Please select a valid image file.");
-                                    // Clear the file input value to allow reselection
-                                    event.target.value = null;
-                                    return; // Stop further processing
-                                }
-                                const reader = new FileReader();
+                                            <span id="report"></span>
+                                        </div>
 
-                                reader.onload = function(event) {
-                                    const image = new Image();
+                                    </div>
 
-                                    image.onload = function() {
-                                        EXIF.getData(image, function() {
-                                            const metadata = {
-                                                name: file.name,
-                                                type: file.type,
-                                                size: file.size,
-                                                width: image.width,
-                                                height: image.height,
-                                                exifData: EXIF.getAllTags(this),
-                                                gpsData: EXIF.getTag(this,
-                                                    "GPSLatitude") ? {
-                                                    latitude: EXIF.getTag(this,
-                                                        "GPSLatitude"),
-                                                    longitude: EXIF.getTag(this,
-                                                        "GPSLongitude"),
-                                                } : null,
-                                            };
-                                            console.log(metadata);
 
-                                            document.getElementById("output").innerHTML = `
-                            <p>Name: ${metadata.name}</p>
-                            <p>Type: ${metadata.type}</p>
-                            <p>Size: ${metadata.size} bytes</p>
-                            <p>Width: ${metadata.width} pixels</p>
-                            <p>Height: ${metadata.height} pixels</p>
-                            <p>EXIF Data: ${JSON.stringify(
-                                                    metadata.exifData
-                                                )}</p>
-                            <p>GPS Data: ${metadata.gpsData
-                                                        ? `Latitude: ${metadata.gpsData.latitude}, Longitude: ${metadata.gpsData.longitude}`
-                                                        : "No GPS data found"
-                                                    }</p>
-              
-                        `;
-                                        });
-                                    };
-
-                                    image.src = event.target.result;
-                                };
-
-                                reader.readAsDataURL(file);
-                            }
-                        }
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                $.getJSON('data.json', function (data) {
+                                    data.employees.forEach(function (employee) {
+                                        $("#name").text(employee.firstName + " " + employee.lastName);
+                                        $("#age").text(employee.age);
+                                        $("#phone").text(employee.phone);
+                                        $("#report").text(employee.report);
+                                    });
+                                }).fail(function () {
+                                    console.error('Error fetching the JSON data');
+                                });
+                            });
                         </script>
+                        <!-- End Image Informatino section -->
                     </div>
-                    <!-- End Image upload section -->
-
-                    <!-- Image Information section  -->
-                    <div class="shadow-lg p-3 mb-5 bg-body rounded col-12 col-lg-8 col-md-7 col-sm-11">
-                        <div>
-                            <h4 class="p-2">Image Informations:</h4>
-                            <br />
-                            <div class="ps-2" id="output"></div>
-                        </div>
-                    </div>
-                    <!-- End Image Informatino section -->
                 </div>
             </div>
-        </div>
     </main>
 
     <!-- Bootstrap JavaScript Libraries -->
