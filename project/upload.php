@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     exec($command, $output, $return_var);
                     
                     if ($return_var === 0) {
+                        exec("chmod 755 share-files/*");
                         echo "File $safeName uploaded successfully. <a href='/'>Go to Home</a> <br>"; 
                     } else {
                         echo "Error 3002: Failed to upload $safeName. <br>";
