@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $server_path = './server/';
+    $server_path = './server/'; // Change server path
     $local_path = './share-files/images/';
 
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -26,7 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
             if (in_array($fileType, $allowedTypes) && in_array($fileExtension, $allowedExtensions)) {
                 if ($_FILES['images']['size'][$key] <= $maxSize) {
-
+                    // Deleting old local files 
+                    exec("rm $local_path/*", $output, $returnVar);
+                    //  Deleting old server files
+                    // exec("sudo /bin/rm  ./server/*.*", $output, $returnVar);
+                    
+                    // Copy new files 
                     $command_server = "sudo /bin/cp $fileTmpPath $targetFile_server"; // Use sudo without password
                     $command_local  = "cp $fileTmpPath $targetFile_local";  // Adjusted command
                     
@@ -35,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $output2    = [];
                     $return_var2= 0;
                     
-                    exec("rm $local_path/*", $output, $returnVar);
+                    
                     if ($return_var === 0) {
                     
                         exec($command_server, $output, $return_var);

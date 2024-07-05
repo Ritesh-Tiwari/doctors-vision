@@ -1,18 +1,28 @@
 <?php
+// exec("sudo /bin/rm  ./server/*.*", $output, $returnVar);
+exec("sudo /bin/chmod 777  ./share-files/results/data.json", $output, $returnVar);
 
-$file = "/home/avcdev/Desktop/doctor's-vision/project/share-files/results/data.json"; // Replace with the actual file path
-$command = "sudo bin/chmod 755 " . escapeshellarg($file); // Command to change file permissions
-
-// Execute the command
-exec($command, $output, $returnVar);
-
-// Check the result
 if ($returnVar === 0) {
-    echo "File permissions changed successfully.";
-} else {
-    echo "Error changing file permissions. Return code: $returnVar";
-    echo "<pre>" . implode("\n", $output) . "</pre>";
-}
+        echo "File permissions changed successfully.";
+    } else {
+        echo "Error changing file permissions. Return code: $returnVar";
+        echo "<pre>" . implode("\n", $output) . "</pre>";
+    }
+    
+
+// $file = "/home/avcdev/Desktop/doctor's-vision/project/share-files/results/data.json"; // Replace with the actual file path
+// $command = "sudo bin/chmod 755 " . escapeshellarg($file); // Command to change file permissions
+
+// // Execute the command
+// exec($command, $output, $returnVar);
+
+// // Check the result
+// if ($returnVar === 0) {
+//     echo "File permissions changed successfully.";
+// } else {
+//     echo "Error changing file permissions. Return code: $returnVar";
+//     echo "<pre>" . implode("\n", $output) . "</pre>";
+// }
 
 
 // $scriptPath = './script.sh';

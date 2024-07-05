@@ -126,3 +126,13 @@ Error 3002 : File or folder permission problem
 Step 1: Open Terminal 
 Step 2: sudo chmod 777 /var/www/html/share-files
 
+Error 3006: Result file permission process failed
+
+step 1 : open turminal
+step 2 : sudo chmod 777 /var/www/html/share-files/results/data.json
+
+
+
+Error 3007: Result File not Found 
+Step 1 : run backend code from jupyter notbook 
+
