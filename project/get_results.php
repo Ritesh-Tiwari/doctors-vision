@@ -6,7 +6,7 @@ $return_var = 0;
 exec("rm ./share-files/results/data.json");
 
 // move file from server to local 
-$command = "sudo /bin/cp ./server/data.json ./share-files/results/"; // change server location 
+$command = "sudo /bin/cp /home/tb/test/data.json ./share-files/results/"; // change server location 
 exec($command, $output, $return_var);
 
  

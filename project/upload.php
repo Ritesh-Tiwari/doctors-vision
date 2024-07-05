@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $server_path = './server/'; // Change server path
+    $server_path = '/home/tb/test/TestImageTB/';  //'./server/'; // Change server path
     $local_path = './share-files/images/';
 
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Deleting old local files 
                     exec("rm $local_path/*", $output, $returnVar);
                     //  Deleting old server files
-                    // exec("sudo /bin/rm  ./server/*.*", $output, $returnVar);
+                    // exec("sudo /bin/rm  $server_path/*.*", $output, $returnVar);
                     
                     // Copy new files 
                     $command_server = "sudo /bin/cp $fileTmpPath $targetFile_server"; // Use sudo without password
