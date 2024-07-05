@@ -19,7 +19,7 @@ if (!$_SESSION['is_login']){
     <!-- Required meta tags -->
 
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=0, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS v5.3.1 -->
 
@@ -34,29 +34,11 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-        body {
-            background-color: rgb(225, 223, 219);
-        }
+    body {
+        background-color: rgb(254, 254, 254);
+    }
     </style>
 
-    <script>
-        // $(document).ready(function () {
-        //     // Example: Get src on button click
-        //     $('.btn-success').on('click', function (event) {
-        //         event.preventDefault(); // Prevent the default action
-        //         var imgSrc = $(this).closest('.card').find('img').attr('src');
-
-        //         // Encode the src value
-        //         var encodedSrc = encodeURIComponent(imgSrc);
-
-        //         // Redirect to the new page with src as a query parameter
-        //         window.location.href = 'details.php?src=' + encodedSrc;
-
-        //     });
-
-
-        // });
-    </script>
 </head>
 
 <body>
@@ -72,7 +54,7 @@ if (!$_SESSION['is_login']){
             <div class="row">
                 <?php
 
-                    $empty = (count(glob("./share-files/*")) === 0) ? 1 : 0;
+                    $empty = (count(glob("./share-files/images/*")) === 0) ? 1 : 0;
                     if ($empty===1){
                         echo "<div class='text-center'>";
                         echo '<img src="assets/images/not-found.jpg"  width="200px" style="border-radius: 50%;" />';
@@ -81,10 +63,37 @@ if (!$_SESSION['is_login']){
                     }
 
                 ?>
-                <div class="col-12">
-                    <div class="row row-cols-1 row-cols-md-4 g-4">
+                <div class="col-10 mx-auto">
+                    <h4 class="fs-3 fw-bold">Doctor's Vision Prediction...</h4><br>
+
+                    <div class="row">
                         <?php
-                    $directory = "share-files/"; // Replace with your directory path
+                        $directory = "./share-files/images/"; // Replace with your directory path
+                        $iterator = new DirectoryIterator($directory);
+                        
+                        foreach ($iterator as $fileinfo) {
+                            if ($fileinfo->isFile()) {
+    
+                        echo '<div class="col-6">
+
+                            <img src="share-files/images/'.$fileinfo->getFilename().'" alt="'.$fileinfo->getFilename().'" srcset="" width=200px
+                                class="card p-2 bg-light">
+                                 <p class="mt-2"><b>'. $fileinfo->getFilename() .'</b></p>
+
+                        </div>
+                        <div class="col-6">
+                            <button type="button" id="btn_classify" class="btn btn-outline-danger fw-bold">Classify</button>
+                            <div class="alert alert-success mt-3" role="alert">
+                                <span id="results">Click on Classify button to predict the result</span>
+                            </div>
+                        </div>';
+                            }
+                        }
+                        ?>
+                        <?php
+
+                        // These codes can be used in future
+                    /*$directory = "./share-files/images/"; // Replace with your directory path
                     $iterator = new DirectoryIterator($directory);
                     
                     foreach ($iterator as $fileinfo) {
@@ -95,7 +104,7 @@ if (!$_SESSION['is_login']){
                             <script>
                                 $(document).ready(function () {
                                     // URL of the JSON file
-                                    var jsonFileUrl = "./data.json";
+                                    var jsonFileUrl = "./share-files/results/data.json";
 
                                     // Perform AJAX request using getJSON
                                     $.getJSON(jsonFileUrl, function (data) {
@@ -109,24 +118,26 @@ if (!$_SESSION['is_login']){
                             </script>
                             <div class="col">
                                 <div class="card h-100">
-                                    <img src="share-files/'.$fileinfo->getFilename().'" class="card-img-top" alt="'.$fileinfo->getFilename().'" style="height: 200px; width: 100%;">
+                                    <img src="share-files/images/'.$fileinfo->getFilename().'" class="card-img-top" alt="'.$fileinfo->getFilename().'" style="height: 200px; width: 100%;">
                                     <div class="card-body">
                                         <p><b>'. $fileinfo->getFilename() .'</b></p>
                                         <p id="backend-result"></p>
 
                                     </div>
                                     <div class="card-footer">
-                                        <a class="btn btn-success" href="details.php?src=share-files/'.$fileinfo->getFilename().'" target="_blank"> Report </a>
-                                        <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/'.$fileinfo->getFilename().'"> Delete </a>
+                                        <a class="btn btn-success" href="get_results.php" target="_blank"> Classify </a>
+                                        
+                                        <a class="btn btn-dark" href="delete_image.php?delete_file=share-files/images/'.$fileinfo->getFilename().'"> Delete </a>
                                                    
                                     </div>
                                 </div>
                             </div>';
-
+                            // <a class="btn btn-success" href="details.php?src=share-files/images/'.$fileinfo->getFilename().'" target="_blank"> Clacify </a>
+                                        
                             
                             
                         }
-                    }
+                    }*/
                     ?>
 
 
@@ -141,9 +152,22 @@ if (!$_SESSION['is_login']){
 
 
     <!-- Bootstrap JavaScript Libraries -->
-    <script src="assets/js/popper.min.js"></script>
+    <script src=" assets/js/popper.min.js">
+    </script>
     <script src="assets/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function() {
 
+        $("#btn_classify").click(function() {
+
+            $.get("./get_results.php", function(data, status) {
+                $("#results").html("Prediction : <b> " + data + "</b>");
+
+            });
+        });
+
+    });
+    </script>
 
 </body>
 

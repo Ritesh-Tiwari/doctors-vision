@@ -106,7 +106,7 @@ if (!$_SESSION['is_login']){
                         onclick="document.getElementById('imageInput').click();">
                         <strong> <i class="fa fa-plus" aria-hidden="true"></i> Browse Files </strong></button>
 
-                    <button type="submit" id="btn-upload" class="btn btn-outline-danger mx-3 fw-bold">Classify</button>
+                    <button type="submit" id="btn-upload" class="btn btn-outline-danger mx-3 fw-bold">Submit</button>
 
                 </div>
                 <input type="file" name="images[]" class="file-input" accept="image/*" multiple id="imageInput">

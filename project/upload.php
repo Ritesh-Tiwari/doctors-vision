@@ -1,42 +1,54 @@
 <?php
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $uploadDir = './share-files/';
+    $server_path = './server/';
+    $local_path = './share-files/images/';
+
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
     $maxSize = 20 * 1024 * 1024; // 20 MB
 
-    // if (!is_dir($uploadDir)) {
-    //     // mkdir($uploadDir, 0777, true);
-    // }
-
     foreach ($_FILES['images']['name'] as $key => $name) {
-        $fileTmpPath = $_FILES['images']['tmp_name'][$key];
-        $fileType = mime_content_type($fileTmpPath);
-        $fileExtension = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-        $safeName = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($name));
-        $targetFile = $uploadDir . $safeName;
+        $fileTmpPath    = $_FILES['images']['tmp_name'][$key];
+        $fileType       = mime_content_type($fileTmpPath);
+        $fileExtension  = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        $safeName       = preg_replace('/[^a-zA-Z0-9-_\.]/', '', basename($name));
         
-        $fileTmpPath = escapeshellarg($fileTmpPath);
-        $targetFile = escapeshellarg($targetFile);
+        $targetFile_server  = $server_path . $safeName;
+        $targetFile_local   = $local_path . $safeName;
+        
+        
+        $fileTmpPath        = escapeshellarg($fileTmpPath);
+        $targetFile_server  = escapeshellarg($targetFile_server);
+        $targetFile_local   = escapeshellarg($targetFile_local);
         
         $msg ='';
         if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
             if (in_array($fileType, $allowedTypes) && in_array($fileExtension, $allowedExtensions)) {
                 if ($_FILES['images']['size'][$key] <= $maxSize) {
 
-                    // $command = "sudo /bin/cp $fileTmpPath $targetFile"; // Use sudo without password
-                    $command = "cp $fileTmpPath $targetFile";  // Adjusted command
-                    $output = [];
+                    $command_server = "sudo /bin/cp $fileTmpPath $targetFile_server"; // Use sudo without password
+                    $command_local  = "cp $fileTmpPath $targetFile_local";  // Adjusted command
+                    
+                    $output     = [];
                     $return_var = 0;
+                    $output2    = [];
+                    $return_var2= 0;
                     
-                    exec($command, $output, $return_var);
-                    
+                    exec("rm $local_path/*", $output, $returnVar);
                     if ($return_var === 0) {
-                        exec("chmod 755 share-files/*");
-                        echo "File $safeName uploaded successfully. <a href='/'>Go to Home</a> <br>"; 
-                    } else {
-                        echo "Error 3002: Failed to upload $safeName. <br>";
+                    
+                        exec($command_server, $output, $return_var);
+                        exec($command_local, $output2, $return_var2);
+                        
+                        if ($return_var === 0) {
+                            exec("chmod 755 $local_path/*");
+                            echo "File $safeName uploaded successfully. <a href='/'>Go to Home</a> <br>"; 
+                        } else {
+                            echo "Error 3002: Failed to upload $safeName. <br>";
+                        }
+                    }else{
+                        echo "Files not deleted";
                     }
                 } else {
                     echo "File $safeName exceeds the maximum size limit.<br>";

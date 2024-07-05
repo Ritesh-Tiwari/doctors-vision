@@ -17,3 +17,7 @@ env.bak/
 venv.bak/
 
 demo-images/
+test.php
+script.sh
+server/*
+server
