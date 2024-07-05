@@ -36,55 +36,55 @@ if (!$_SESSION['is_login']){
     <link rel="stylesheet" href="assets/css/style.css">
 
     <style>
-        body {
-            background-color: rgb(255, 255, 255);
-        }
+    body {
+        background-color: rgb(255, 255, 255);
+    }
 
-        h3:hover,
-        h4:hover {
-            color: red;
-            transform: scale(1.05);
-        }
+    h3:hover,
+    h4:hover {
+        color: red;
+        transform: scale(1.05);
+    }
 
-        .file-input {
-            display: none;
-        }
+    .file-input {
+        display: none;
+    }
 
-        .file-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #e45151;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
+    .file-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #e45151;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
 
-        .file-btn:hover {
-            background-color: #ea876b;
-        }
+    .file-btn:hover {
+        background-color: #ea876b;
+    }
 
-        .image-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    .image-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-        .image-preview img {
-            width: 150px;
-            height: 200px;
-            object-fit: cover;
-            border: 1px solid #9d9999;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-        }
+    .image-preview img {
+        width: 150px;
+        height: 200px;
+        object-fit: cover;
+        border: 1px solid #9d9999;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+    }
 
-        #btn-upload:hover {
-            color: #fff;
-        }
+    #btn-upload:hover {
+        color: #fff;
+    }
     </style>
 </head>
 
@@ -119,37 +119,37 @@ if (!$_SESSION['is_login']){
             </form>
 
             <script>
-                document.getElementById('imageInput').addEventListener('change', function (event) {
-                    const imagePreview = document.getElementById('imagePreview');
-                    imagePreview.innerHTML = ''; // Clear previous previews
-                    const files = event.target.files;
+            document.getElementById('imageInput').addEventListener('change', function(event) {
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = ''; // Clear previous previews
+                const files = event.target.files;
 
-                    Array.from(files).forEach(file => {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            const imgElement = document.createElement('img');
-                            imgElement.src = e.target.result;
-                            imagePreview.appendChild(imgElement);
-                        };
-                        reader.readAsDataURL(file);
+                Array.from(files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = e.target.result;
+                        imagePreview.appendChild(imgElement);
+                    };
+                    reader.readAsDataURL(file);
 
-
-                    });
 
                 });
+
+            });
             </script>
         </div>
 
 
         <script>
-            $(document).ready(function () {
-                $("#btn-upload").hide();
-                $("#btn-select").click(function () {
-                    $("#btn-upload").show();
-
-                });
+        $(document).ready(function() {
+            $("#btn-upload").hide();
+            $("#btn-select").click(function() {
+                $("#btn-upload").show();
 
             });
+
+        });
         </script>
 </body>
 

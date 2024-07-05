@@ -76,8 +76,8 @@ if (!$_SESSION['is_login']){
     
                         echo '<div class="col-6">
 
-                            <img src="share-files/images/'.$fileinfo->getFilename().'" alt="'.$fileinfo->getFilename().'" srcset="" width=200px
-                                class="card p-2 bg-light">
+                            <a href="share-files/images/'.$fileinfo->getFilename().'" target="_blank"><img src="share-files/images/'.$fileinfo->getFilename().'" alt="'.$fileinfo->getFilename().'" srcset="" width=200px
+                                class="card p-2 bg-light"></a>
                                  <p class="mt-2"><b>'. $fileinfo->getFilename() .'</b></p>
 
                         </div>
